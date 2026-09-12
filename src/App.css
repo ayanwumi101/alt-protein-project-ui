@@ -2044,7 +2044,6 @@
 .gallery-card:hover .gallery-card-overlay,
 .gallery-card:focus-within .gallery-card-overlay {
   opacity: 1;
-  pointer-events: auto;
 }
 .gallery-card-overlay button,
 .gallery-modal-close {
@@ -2074,33 +2073,33 @@
 }
 .gallery-modal {
   position: fixed;
-  z-index: 20;
+  z-index: 1000;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  background: #101812f2;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(16, 24, 18, 0.95);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px;
   animation: modal-in 0.3s ease;
-  overflow: auto;
+  overflow: hidden;
 }
 .gallery-modal-image {
   display: block;
   width: auto;
   height: auto;
   max-width: min(1100px, calc(100vw - 80px));
-  max-height: calc(100vh - 80px);
+  max-height: calc(100vh - 120px);
   object-fit: contain;
-  box-shadow: 0 24px 80px #0008;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
   margin: auto;
 }
 .gallery-modal-close {
-  position: absolute;
+  position: fixed;
   right: 28px;
   top: 28px;
-  z-index: 2;
+  z-index: 1001;
   display: grid;
   border: 2px solid var(--paper);
   background: var(--paper);
@@ -2109,6 +2108,7 @@
   color: var(--ink);
   opacity: 1;
   place-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 @keyframes modal-in {
   from {
@@ -2151,7 +2151,6 @@
   .gallery-card-overlay {
     opacity: 1;
     padding: 8px;
-    pointer-events: auto;
   }
   .gallery-card-overlay button {
     width: 34px;

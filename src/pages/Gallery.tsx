@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { CloseCircle, DocumentDownload, Maximize4 } from "iconsax-react";
 import { Reveal } from "../components/Reveal";
 import {
@@ -202,32 +203,34 @@ export function Gallery() {
           </section>
         ))}
       </section>
-      {selected && (
-        <div
-          className="gallery-modal"
-          role="dialog"
-          aria-modal="true"
-          aria-label={selected.alt}
-          onClick={() => setSelected(null)}
-        >
-          <button
-            className="gallery-modal-close"
-            onClick={(event) => {
-              event.stopPropagation();
-              setSelected(null);
-            }}
-            aria-label="Close image viewer"
+      {selected &&
+        createPortal(
+          <div
+            className="gallery-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label={selected.alt}
+            onClick={() => setSelected(null)}
           >
-            <CloseCircle color="currentColor" size={30} variant="Linear" />
-          </button>
-          <img
-            src={selected.src}
-            alt={selected.alt}
-            className="gallery-modal-image"
-            onClick={(event) => event.stopPropagation()}
-          />
-        </div>
-      )}
+            <button
+              className="gallery-modal-close"
+              onClick={(event) => {
+                event.stopPropagation();
+                setSelected(null);
+              }}
+              aria-label="Close image viewer"
+            >
+              <CloseCircle color="currentColor" size={30} variant="Linear" />
+            </button>
+            <img
+              src={selected.src}
+              alt={selected.alt}
+              className="gallery-modal-image"
+              onClick={(event) => event.stopPropagation()}
+            />
+          </div>,
+          document.body,
+        )}
     </main>
   );
 }
