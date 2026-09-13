@@ -28,6 +28,7 @@ const menus = [
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const ref = useRef<HTMLElement>(null);
   const close = () => {
@@ -41,14 +42,27 @@ export function Header() {
     document.addEventListener("mousedown", handleOutside);
     return () => document.removeEventListener("mousedown", handleOutside);
   }, []);
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 8);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  useEffect(() => {
+    document.body.classList.toggle("mobile-menu-open", menuOpen);
+    return () => document.body.classList.remove("mobile-menu-open");
+  }, [menuOpen]);
   return (
     <>
-      <div className="announcement">
+      {/* <div className="announcement">
         <span className="pulse" /> Waterloo Alt Protein Project{" "}
         <span className="announcement-separator">·</span> Building a better food
         system, together <Arrow />
-      </div>
-      <nav className="nav shell" ref={ref}>
+      </div> */}
+      <nav
+        className={`nav shell ${isScrolled ? "nav-scrolled" : ""}`}
+        ref={ref}
+      >
         <Brand />
         <div className={`nav-links ${menuOpen ? "mobile-open" : ""}`}>
           {menus.map((menu) => (
